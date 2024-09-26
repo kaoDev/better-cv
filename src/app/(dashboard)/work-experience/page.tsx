@@ -12,6 +12,8 @@ import { PdfImport } from "./_components/PdfImport";
 import { WorkExperienceForm } from "./_components/WorkExperienceForm";
 import { WorkExperienceList } from "./_components/WorkExperienceList";
 
+export const maxDuration = 60;
+
 export default function WorkExperiencePage() {
   return (
     <div className="space-y-6">

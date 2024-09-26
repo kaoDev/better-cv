@@ -7,6 +7,8 @@ import { generateMarkdownCV } from "../_actions/generateMarkdownCV";
 import { saveCV } from "../_actions/saveCV";
 import { CVEditor } from "../_components/CVEditor";
 
+export const maxDuration = 60;
+
 export default async function JobApplicationDetailPage({
   params,
 }: {
