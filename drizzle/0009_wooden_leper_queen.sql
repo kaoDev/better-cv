@@ -1,0 +1,1 @@
+ALTER TABLE "better-cv_job_application" ADD COLUMN "generated_cv" text DEFAULT '' NOT NULL;

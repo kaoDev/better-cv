@@ -1,0 +1,1 @@
+ALTER TABLE "better-cv_work_experience" DROP COLUMN IF EXISTS "content";

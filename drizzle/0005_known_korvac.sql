@@ -1,0 +1,1 @@
+ALTER TABLE "better-cv_work_experience" RENAME COLUMN "embedding" TO "embeddings";
