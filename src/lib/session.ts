@@ -13,6 +13,12 @@ export async function getCurrentUser() {
 }
 
 export async function getCurrentUserWithLoginRedirect() {
+  const sessionUser = await getCurrentUser();
+
+  if (!sessionUser) {
+    return redirect("/api/auth/signin");
+  }
+
   const currentUser = await api.user.me();
 
   if (!currentUser) {
