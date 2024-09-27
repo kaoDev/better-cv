@@ -1,9 +1,9 @@
 import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
-import { type BuiltInProviderType } from "next-auth/providers/index";
+import type { BuiltInProviderType } from "next-auth/providers/index";
 import {
   type ClientSafeProvider,
-  getProviders,
   type LiteralUnion,
+  getProviders,
 } from "next-auth/react";
 import { Badge } from "~/components/ui/badge";
 import {
@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { cn } from "~/lib/utils";
-import { type Doc } from "~/server/db/types";
+import type { Doc } from "~/server/db/types";
 import { api } from "~/trpc/server";
 import { ConnectProviderButton } from "./ConnectProviderButton";
 
@@ -70,8 +70,8 @@ export async function ConnectedAccounts() {
         </CardHeader>
         <CardContent>
           <ul className="space-y-4">
-            {accounts.map((account, index) => (
-              <li key={index}>
+            {accounts.map((account) => (
+              <li key={account.provider}>
                 <Card>
                   <CardHeader className="flex flex-row items-center space-x-4 pb-2">
                     <div className="bg-primary-50 rounded-full p-2">
@@ -86,8 +86,6 @@ export async function ConnectedAccounts() {
                   </CardHeader>
                   <CardContent>
                     <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                      <dt className="font-medium text-gray-500">User ID</dt>
-                      <dd className="text-gray-700">{account.userId}</dd>
                       <dt className="font-medium text-gray-500">
                         Provider Account ID
                       </dt>
@@ -128,8 +126,8 @@ export async function ConnectedAccounts() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-4">
-              {possibleOAuthProviders.map((provider, index) => (
-                <li key={index}>
+              {possibleOAuthProviders.map((provider) => (
+                <li key={provider.id}>
                   <ConnectProviderButton provider={provider.id}>
                     {getIcon(provider.id)} Connect with {provider.name}
                   </ConnectProviderButton>
