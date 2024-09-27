@@ -20,8 +20,8 @@ export default async function RootLayout({
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <aside className="flex w-64 flex-col bg-white shadow-md">
+    <div className="flex h-screen bg-background">
+      <aside className="flex w-64 flex-col bg-background shadow-md">
         <div className="p-4">
           <h1 className="text-2xl font-bold">Better CV</h1>
         </div>
@@ -55,7 +55,7 @@ export default async function RootLayout({
             Account
           </Button>
         </Link>
-          <LogoutButton />
+        <LogoutButton />
       </aside>
       <main className="flex-1 overflow-auto p-6">{children}</main>
       <Toaster />

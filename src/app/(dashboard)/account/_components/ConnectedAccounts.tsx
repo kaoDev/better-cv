@@ -74,7 +74,7 @@ export async function ConnectedAccounts() {
               <li key={account.provider}>
                 <Card>
                   <CardHeader className="flex flex-row items-center space-x-4 pb-2">
-                    <div className="bg-primary-50 rounded-full p-2">
+                    <div className="rounded-full p-2">
                       {getIcon(account.provider, { large: true })}
                     </div>
                     <CardTitle className="text-lg">

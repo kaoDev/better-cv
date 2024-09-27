@@ -81,7 +81,7 @@ export function CVEditor({
             />
           </TabsContent>
           <TabsContent value="preview">
-            <div className="prose prose-img:w-40 prose-img:rounded-xl max-w-full">
+            <div className="prose max-w-full dark:prose-invert prose-img:w-40 prose-img:rounded-xl">
               <ReactMarkdown>{markdown}</ReactMarkdown>
             </div>
           </TabsContent>
@@ -92,7 +92,7 @@ export function CVEditor({
           <h2 className="mb-2 text-xl font-semibold">Edit</h2>
           <textarea
             disabled={interactionDisabled}
-            className="h-[70vh] w-full rounded-md border p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="h-[70vh] w-full rounded-md border bg-background p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={markdown}
             onChange={(e) => setMarkdown(e.target.value)}
             placeholder="Enter your Markdown here..."
@@ -100,7 +100,7 @@ export function CVEditor({
         </div>
         <div className="w-1/2">
           <h2 className="mb-2 text-xl font-semibold">Preview</h2>
-          <div className="prose prose-img:w-40 prose-img:rounded-xl h-[70vh] max-w-full overflow-auto rounded-md border p-4">
+          <div className="prose h-[70vh] max-w-full overflow-auto rounded-md border p-4 dark:prose-invert prose-img:w-40 prose-img:rounded-xl">
             <ReactMarkdown>{markdown}</ReactMarkdown>
           </div>
         </div>

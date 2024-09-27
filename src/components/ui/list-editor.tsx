@@ -67,7 +67,7 @@ export function ListEditor<T extends { id: string }>({
         {items.map((item) => (
           <li
             key={item.id}
-            className="flex items-center justify-between rounded bg-gray-100 p-2"
+            className="flex items-center justify-between rounded bg-gray-100 p-2 dark:bg-gray-800"
           >
             {renderItem(item)}
             <div>
