@@ -18,7 +18,5 @@ export async function generateMarkdownCV(id: string) {
 
   revalidatePath(`/job-applications/${id}`);
 
-  console.log(generatedMarkdown);
-
   return generatedMarkdown;
 }

@@ -31,6 +31,8 @@ export const env = createEnv({
     UPLOADTHING_APP_ID: z.string(),
     UPLOADTHING_TOKEN: z.string(),
     UPLOADTHING_SECRET: z.string(),
+    OAUTH_GITHUB_ID: z.string(),
+    OAUTH_GITHUB_SECRET: z.string(),
   },
 
   /**
@@ -60,6 +62,8 @@ export const env = createEnv({
     UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
     UPLOADTHING_TOKEN: process.env.UPLOADTHING_APP_ID,
     UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
+    OAUTH_GITHUB_ID: process.env.OAUTH_GITHUB_ID,
+    OAUTH_GITHUB_SECRET: process.env.OAUTH_GITHUB_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

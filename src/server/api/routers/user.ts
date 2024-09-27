@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { Doc } from "~/server/db/types";
+import { type Doc } from "~/server/db/types";
 import {
   contactDetailSchema,
   educationSchema,
@@ -9,6 +9,7 @@ import {
   referenceSchema,
 } from "~/server/personal-details/helpers";
 import {
+  accounts,
   contactDetails,
   educations,
   languages,
@@ -35,6 +36,18 @@ export const userRouter = createTRPCRouter({
     return user;
   }),
 
+  // Get connected accounts
+  getConnectedAccounts: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session.user.id;
+    const connectedAccounts = await ctx.db
+      .select()
+      .from(accounts)
+      .where(eq(accounts.userId, userId))
+      .execute();
+
+    return connectedAccounts;
+  }),
+
   // Update an user
   update: protectedProcedure
     .input(
@@ -58,18 +71,6 @@ export const userRouter = createTRPCRouter({
       if (image !== undefined) {
         updatedFields.image = image;
       }
-
-      const query = ctx.db
-        .update(users)
-        .set(input)
-        .where(eq(users.id, userId))
-        .toSQL();
-
-      console.log("Updating user:", {
-        updatedFields,
-        userId,
-        query,
-      });
 
       const updatedUser = await ctx.db
         .update(users)

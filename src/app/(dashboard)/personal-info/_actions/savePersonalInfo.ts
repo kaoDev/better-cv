@@ -19,7 +19,6 @@ export async function savePersonalInfo(formData: FormData) {
       .optional()
       .parse(formData.get("image") ?? undefined),
   };
-  console.log("Saving personal info:", updatedUserData);
 
   await api.user.update(updatedUserData);
 

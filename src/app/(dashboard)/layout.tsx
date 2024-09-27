@@ -1,18 +1,27 @@
-import { Briefcase, FileText, UserCircle } from "lucide-react";
+import { Briefcase, FileText, Settings, UserCircle } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { Toaster } from "~/components/ui/toaster";
+import { getSession } from "~/lib/session";
 import { importDetailsFromPdf } from "./_actions/importDetailsFromPdf";
+import { LogoutButton } from "./_components/LogoutButton";
 import { PdfImport } from "./_components/PdfImport";
 
 export const maxDuration = 60;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const session = await getSession();
+
+  if (!session) {
+    return redirect("/api/auth/signin");
+  }
+
   return (
     <div className="flex h-screen bg-gray-100">
-      <aside className="w-64 bg-white shadow-md">
+      <aside className="flex w-64 flex-col bg-white shadow-md">
         <div className="p-4">
           <h1 className="text-2xl font-bold">Better CV</h1>
         </div>
@@ -39,6 +48,14 @@ export default function RootLayout({
         <div className="px-4 py-6">
           <PdfImport importExperienceFromPdf={importDetailsFromPdf} />
         </div>
+        <div className="flex-1" />
+        <Link href="/account">
+          <Button variant="ghost" className="w-full justify-start">
+            <Settings className="mr-2 h-4 w-4" />
+            Account
+          </Button>
+        </Link>
+          <LogoutButton />
       </aside>
       <main className="flex-1 overflow-auto p-6">{children}</main>
       <Toaster />

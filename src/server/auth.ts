@@ -6,6 +6,8 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import EmailProvider from "next-auth/providers/email";
+import GitHubProvider from "next-auth/providers/github";
+import { env } from "~/env";
 import { db } from "~/server/db";
 import {
   accounts,
@@ -59,14 +61,18 @@ export const authOptions: NextAuthOptions = {
   providers: [
     EmailProvider({
       server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
+        host: env.EMAIL_SERVER_HOST,
+        port: env.EMAIL_SERVER_PORT,
         auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
+          user: env.EMAIL_SERVER_USER,
+          pass: env.EMAIL_SERVER_PASSWORD,
         },
       },
-      from: process.env.EMAIL_FROM,
+      from: env.EMAIL_FROM,
+    }),
+    GitHubProvider({
+      clientId: env.OAUTH_GITHUB_ID,
+      clientSecret: env.OAUTH_GITHUB_SECRET,
     }),
     /**
      * ...add more providers here.
