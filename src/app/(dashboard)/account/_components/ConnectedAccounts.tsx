@@ -1,4 +1,5 @@
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { type ClientSafeProvider, getProviders } from "next-auth/react";
 import { Badge } from "~/components/ui/badge";
 import {
   Card,
@@ -20,8 +21,6 @@ function getIcon(type: Doc<"accounts">["provider"]) {
   }
 }
 
-const enabledOAuthProviders = ["github"];
-
 export async function ConnectedAccounts() {
   const accounts = await api.user.getConnectedAccounts();
 
@@ -30,8 +29,19 @@ export async function ConnectedAccounts() {
     return new Date(expiresAt * 1000).toLocaleString();
   };
 
-  const possibleOAuthProviders = enabledOAuthProviders.filter(
-    (account) => !accounts.some((acc) => acc.provider === account),
+  const providers = await getProviders();
+
+  const enabledProviders: ClientSafeProvider[] = [];
+  if (providers) {
+    for (const provider of Object.values(providers)) {
+      enabledProviders.push(provider);
+    }
+  }
+
+  const possibleOAuthProviders = enabledProviders.filter(
+    (provider) =>
+      provider.type === "oauth" &&
+      !accounts.some((acc) => acc.provider === provider.id),
   );
 
   return (
@@ -108,8 +118,8 @@ export async function ConnectedAccounts() {
             <ul className="space-y-4">
               {possibleOAuthProviders.map((provider, index) => (
                 <li key={index}>
-                  <ConnectProviderButton provider={provider}>
-                    {getIcon(provider)} Connect with {provider}
+                  <ConnectProviderButton provider={provider.id}>
+                    {getIcon(provider.id)} Connect with {provider.name}
                   </ConnectProviderButton>
                 </li>
               ))}
