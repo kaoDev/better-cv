@@ -44,11 +44,13 @@ ${jobDescription.jobDescription}
 
   const formattedContactDetails = `
     Contact Details:
-    ${contactDetails.map((contactDetail) => {
-      return `
+    ${contactDetails
+      .map((contactDetail) => {
+        return `
       ${contactDetail.type}: ${contactDetail.value}
       `;
-    })}
+      })
+      .join("\n")}
   `.trim();
 
   const formattedEducations = `

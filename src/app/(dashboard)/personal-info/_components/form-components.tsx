@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { z } from "zod";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import {
@@ -22,10 +23,10 @@ export function ContactDetailForm({
   initialData,
   onSave,
 }: {
-  initialData: any;
-  onSave: (data: any) => Promise<void>;
+  initialData: z.infer<typeof contactDetailSchema> | null;
+  onSave: (data: z.infer<typeof contactDetailSchema>) => Promise<void>;
 }) {
-  const [data, setData] = useState(initialData || { type: "", value: "" });
+  const [data, setData] = useState(initialData ?? { type: "", value: "" });
 
   return (
     <form
@@ -37,7 +38,12 @@ export function ContactDetailForm({
     >
       <Select
         value={data.type}
-        onValueChange={(value) => setData({ ...data, type: value })}
+        onValueChange={(value) =>
+          setData({
+            ...data,
+            type: value as z.infer<typeof contactDetailSchema>["type"],
+          })
+        }
       >
         <SelectTrigger>
           <SelectValue placeholder="Select contact type" />
@@ -64,11 +70,11 @@ export function EducationForm({
   initialData,
   onSave,
 }: {
-  initialData: any;
-  onSave: (data: any) => Promise<void>;
+  initialData: z.infer<typeof educationSchema> | null;
+  onSave: (data: z.infer<typeof educationSchema>) => Promise<void>;
 }) {
   const [data, setData] = useState(
-    initialData || { institute: "", title: "", timeFrame: "" },
+    initialData ?? { institute: "", title: "", timeFrame: "" },
   );
 
   return (
@@ -103,11 +109,11 @@ export function LanguageForm({
   initialData,
   onSave,
 }: {
-  initialData: any;
-  onSave: (data: any) => Promise<void>;
+  initialData: z.infer<typeof languageSchema> | null;
+  onSave: (data: z.infer<typeof languageSchema>) => Promise<void>;
 }) {
   const [data, setData] = useState(
-    initialData || { name: "", proficiency: "" },
+    initialData ?? { name: "", proficiency: "" },
   );
 
   return (
@@ -137,11 +143,11 @@ export function ReferenceForm({
   initialData,
   onSave,
 }: {
-  initialData: any;
-  onSave: (data: any) => Promise<void>;
+  initialData: z.infer<typeof referenceSchema> | null;
+  onSave: (data: z.infer<typeof referenceSchema>) => Promise<void>;
 }) {
   const [data, setData] = useState(
-    initialData || { name: "", position: "", company: "", contact: "" },
+    initialData ?? { name: "", position: "", company: "", contact: "" },
   );
 
   return (

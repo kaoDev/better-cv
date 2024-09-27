@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { z } from "zod";
+import { type z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { ListEditor } from "~/components/ui/list-editor";
-import { Doc } from "~/server/db/types";
+import { type Doc } from "~/server/db/types";
 import {
-  contactDetailSchema,
-  educationSchema,
-  languageSchema,
-  referenceSchema,
+  type contactDetailSchema,
+  type educationSchema,
+  type languageSchema,
+  type referenceSchema,
 } from "~/server/personal-details/helpers";
 import {
   ContactDetailForm,

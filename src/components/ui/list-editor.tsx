@@ -12,13 +12,13 @@ import {
 
 type ListEditorProps<T> = {
   items: T[];
-  onAdd: (item: T) => Promise<void>;
-  onEdit: (id: string, item: T) => Promise<void>;
+  onAdd: (item: Omit<T, "id">) => Promise<void>;
+  onEdit: (id: string, item: Omit<T, "id">) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
   renderItem: (item: T) => React.ReactNode;
   renderForm: (
     item: T | null,
-    onSave: (item: T) => Promise<void>,
+    onSave: (item: Omit<T, "id">) => Promise<void>,
   ) => React.ReactNode;
   itemName: string;
 };
@@ -35,7 +35,7 @@ export function ListEditor<T extends { id: string }>({
   const [isOpen, setIsOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<T | null>(null);
 
-  const handleSave = async (item: T) => {
+  const handleSave = async (item: Omit<T, "id">) => {
     if (editingItem) {
       await onEdit(editingItem.id, item);
     } else {
