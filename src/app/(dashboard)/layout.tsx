@@ -2,8 +2,8 @@ import { Briefcase, FileText, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { Toaster } from "~/components/ui/toaster";
-import { importExperienceFromPdf } from "./work-experience/_actions/importExperienceFromPdf";
-import { PdfImport } from "./work-experience/_components/PdfImport";
+import { importDetailsFromPdf } from "./_actions/importDetailsFromPdf";
+import { PdfImport } from "./_components/PdfImport";
 
 export const maxDuration = 60;
 
@@ -37,7 +37,7 @@ export default function RootLayout({
           </Link>
         </nav>
         <div className="px-4 py-6">
-          <PdfImport importExperienceFromPdf={importExperienceFromPdf} />
+          <PdfImport importExperienceFromPdf={importDetailsFromPdf} />
         </div>
       </aside>
       <main className="flex-1 overflow-auto p-6">{children}</main>

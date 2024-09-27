@@ -62,14 +62,11 @@ const pdfResultSchema = z.object({
   references: z.array(referenceSchema),
 });
 
-export async function parseWorkExperience(pdfFileBuffer: Buffer) {
-  console.log("start parseing pdf");
+export async function parseInformationFromPDf(pdfFileBuffer: Buffer) {
+  console.log("start parsing pdf");
   const pdfContent = await parsePdf(pdfFileBuffer);
 
-  console.log("got content from pdf");
-
-  console.log("start generating object");
-
+  console.log("generate structured data from pdf content");
   const { object } = await generateObject({
     model: openai("gpt-4o-mini"),
     output: "object",

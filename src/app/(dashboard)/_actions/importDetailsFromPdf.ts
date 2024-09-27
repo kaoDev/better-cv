@@ -1,8 +1,8 @@
 import { revalidatePath } from "next/cache";
-import { parseWorkExperience } from "~/server/ai/parseWorkExperience";
+import { parseInformationFromPDf } from "~/server/ai/parseWorkExperience";
 import { api } from "~/trpc/server";
 
-export async function importExperienceFromPdf(
+export async function importDetailsFromPdf(
   formData: FormData,
 ): Promise<string> {
   "use server";
@@ -22,7 +22,7 @@ export async function importExperienceFromPdf(
       educations,
       languages,
       references,
-    } = await parseWorkExperience(fileBuffer);
+    } = await parseInformationFromPDf(fileBuffer);
 
     await Promise.all([
       api.workExperience.addMany(workExperiences),
