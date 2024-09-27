@@ -1,5 +1,10 @@
 import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
-import { type ClientSafeProvider, getProviders } from "next-auth/react";
+import { type BuiltInProviderType } from "next-auth/providers/index";
+import {
+  type ClientSafeProvider,
+  getProviders,
+  type LiteralUnion,
+} from "next-auth/react";
 import { Badge } from "~/components/ui/badge";
 import {
   Card,
@@ -8,16 +13,19 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { cn } from "~/lib/utils";
 import { type Doc } from "~/server/db/types";
 import { api } from "~/trpc/server";
 import { ConnectProviderButton } from "./ConnectProviderButton";
 
-function getIcon(type: Doc<"accounts">["provider"]) {
+function getIcon(type: Doc<"accounts">["provider"], { large = false } = {}) {
+  const size = large ? cn("h-6 w-6") : cn("h-4 w-4");
+
   switch (type) {
     case "github":
-      return <GitHubLogoIcon className="h-4 w-4" />;
+      return <GitHubLogoIcon className={size} />;
     case "linkedin":
-      return <LinkedInLogoIcon className="h-4 w-4" />;
+      return <LinkedInLogoIcon className={size} />;
     default:
       return null;
   }
@@ -31,7 +39,12 @@ export async function ConnectedAccounts() {
     return new Date(expiresAt * 1000).toLocaleString();
   };
 
-  const providers = await getProviders();
+  const providers =
+    (await getProviders()) ??
+    ({} as Record<
+      LiteralUnion<BuiltInProviderType, string>,
+      ClientSafeProvider
+    >);
 
   const enabledProviders: ClientSafeProvider[] = [];
   if (providers) {
@@ -62,14 +75,11 @@ export async function ConnectedAccounts() {
                 <Card>
                   <CardHeader className="flex flex-row items-center space-x-4 pb-2">
                     <div className="bg-primary-50 rounded-full p-2">
-                      {getIcon(account.provider)}
+                      {getIcon(account.provider, { large: true })}
                     </div>
-                    <div>
-                      <CardTitle className="text-lg">
-                        {account.provider}
-                      </CardTitle>
-                      <CardDescription>{account.type}</CardDescription>
-                    </div>
+                    <CardTitle className="text-lg">
+                      {providers[account.provider]?.name}
+                    </CardTitle>
                     <Badge variant="outline" className="ml-auto">
                       {account.type === "email" ? "Email" : "OAuth"}
                     </Badge>
