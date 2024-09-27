@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { ConnectedAccounts } from "./_components/ConnectedAccounts";
 
+export const dynamic = "force-dynamic";
+
 export default async function AccountPage() {
   return (
     <div className="container mx-auto py-8">
