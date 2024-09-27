@@ -7,6 +7,9 @@ import {
 import { type Adapter } from "next-auth/adapters";
 import EmailProvider from "next-auth/providers/email";
 import GitHubProvider from "next-auth/providers/github";
+import LinkedInProvider, {
+  type LinkedInProfile,
+} from "next-auth/providers/linkedin";
 import { env } from "~/env";
 import { db } from "~/server/db";
 import {
@@ -73,6 +76,25 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: env.OAUTH_GITHUB_ID,
       clientSecret: env.OAUTH_GITHUB_SECRET,
+    }),
+    LinkedInProvider({
+      clientId: env.OAUTH_LINKEDIN_ID,
+      clientSecret: env.OAUTH_LINKEDIN_SECRET,
+      client: { token_endpoint_auth_method: "client_secret_post" },
+      issuer: "https://www.linkedin.com",
+      profile: (profile: LinkedInProfile) => ({
+        id: profile.sub,
+        name: profile.name,
+        email: profile.email,
+        image: profile.picture,
+      }),
+      wellKnown:
+        "https://www.linkedin.com/oauth/.well-known/openid-configuration",
+      authorization: {
+        params: {
+          scope: "openid profile email",
+        },
+      },
     }),
     /**
      * ...add more providers here.

@@ -1,4 +1,4 @@
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 import { type ClientSafeProvider, getProviders } from "next-auth/react";
 import { Badge } from "~/components/ui/badge";
 import {
@@ -16,6 +16,8 @@ function getIcon(type: Doc<"accounts">["provider"]) {
   switch (type) {
     case "github":
       return <GitHubLogoIcon className="h-4 w-4" />;
+    case "linkedin":
+      return <LinkedInLogoIcon className="h-4 w-4" />;
     default:
       return null;
   }
