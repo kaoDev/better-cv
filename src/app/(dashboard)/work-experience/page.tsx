@@ -7,8 +7,6 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { addWorkExperience } from "./_actions/addWorkExperience";
-import { importExperienceFromPdf } from "./_actions/importExperienceFromPdf";
-import { PdfImport } from "./_components/PdfImport";
 import { WorkExperienceForm } from "./_components/WorkExperienceForm";
 import { WorkExperienceList } from "./_components/WorkExperienceList";
 
@@ -28,7 +26,6 @@ export default function WorkExperiencePage() {
           </Suspense>
         </CardContent>
       </Card>
-      <PdfImport importExperienceFromPdf={importExperienceFromPdf} />
       <WorkExperienceForm addWorkExperience={addWorkExperience} />
     </div>
   );

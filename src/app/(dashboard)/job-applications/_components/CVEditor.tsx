@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Button } from "~/components/ui/button";
@@ -59,7 +59,10 @@ export function CVEditor({
               Generating...
             </>
           ) : (
-            "Generate CV"
+            <>
+              <Sparkles className="mr-2 h-4 w-4" />
+              Generate CV
+            </>
           )}
         </Button>
       </div>
@@ -78,7 +81,7 @@ export function CVEditor({
             />
           </TabsContent>
           <TabsContent value="preview">
-            <div className="prose max-w-full">
+            <div className="prose prose-img:w-40 prose-img:rounded-xl max-w-full">
               <ReactMarkdown>{markdown}</ReactMarkdown>
             </div>
           </TabsContent>
@@ -97,7 +100,7 @@ export function CVEditor({
         </div>
         <div className="w-1/2">
           <h2 className="mb-2 text-xl font-semibold">Preview</h2>
-          <div className="prose h-[70vh] max-w-full overflow-auto rounded-md border p-4">
+          <div className="prose prose-img:w-40 prose-img:rounded-xl h-[70vh] max-w-full overflow-auto rounded-md border p-4">
             <ReactMarkdown>{markdown}</ReactMarkdown>
           </div>
         </div>

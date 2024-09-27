@@ -1,9 +1,9 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { toast } from "~/hooks/use-toast";
@@ -58,34 +58,33 @@ export function PdfImport({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Import Work Experience</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="pdf-upload">Upload PDF</Label>
-            <Input
-              id="pdf-upload"
-              type="file"
-              accept=".pdf"
-              onChange={handleFileChange}
-              disabled={isUploading}
-            />
-          </div>
-          <Button type="submit" disabled={!file || isUploading}>
-            {isUploading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Uploading...
-              </>
-            ) : (
-              "Upload and Process"
-            )}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+    <div className="flex flex-col gap-2">
+      <CardTitle>Import Profile from PDF</CardTitle>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Label htmlFor="pdf-upload">Upload PDF</Label>
+          <Input
+            id="pdf-upload"
+            type="file"
+            accept=".pdf"
+            onChange={handleFileChange}
+            disabled={isUploading}
+          />
+        </div>
+        <Button type="submit" disabled={!file || isUploading}>
+          {isUploading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Processing...
+            </>
+          ) : (
+            <>
+              <Sparkles className="mr-2 h-4 w-4" />
+              Upload and Process
+            </>
+          )}
+        </Button>
+      </form>
+    </div>
   );
 }

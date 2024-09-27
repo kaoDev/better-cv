@@ -16,15 +16,28 @@ export async function importExperienceFromPdf(
   try {
     const fileBuffer = Buffer.from(await file.arrayBuffer());
 
-    const foo = await parseWorkExperience(fileBuffer);
+    const {
+      workExperiences,
+      contactDetails,
+      educations,
+      languages,
+      references,
+    } = await parseWorkExperience(fileBuffer);
 
-    await api.workExperience.addMany(foo);
+    await Promise.all([
+      api.workExperience.addMany(workExperiences),
+      api.user.addContactDetails(contactDetails),
+      api.user.addEducations(educations),
+      api.user.addLanguages(languages),
+      api.user.addReferences(references),
+    ]);
   } catch (error) {
     console.error(error);
     return "Failed to upload and process the file. Please try again.";
   }
 
   revalidatePath("/work-experience");
+  revalidatePath("/personal-info");
 
   return "Imported work experience from PDF.";
 }

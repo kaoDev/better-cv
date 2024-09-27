@@ -8,8 +8,21 @@ export async function generateCV(jobApplicationId: string) {
   const relevantExperiences =
     await api.workExperience.getForJobApplication(jobApplicationId);
 
-  const userInfo = await api.user.me();
-  const jobDescription = await api.jobApplication.get(jobApplicationId);
+  const [
+    userInfo,
+    contactDetails,
+    educations,
+    languages,
+    references,
+    jobDescription,
+  ] = await Promise.all([
+    api.user.me(),
+    api.user.getContactDetails(),
+    api.user.getEducations(),
+    api.user.getLanguages(),
+    api.user.getReferences(),
+    api.jobApplication.get(jobApplicationId),
+  ]);
 
   const formattedExperiences = relevantExperiences
     .map((experience) => {
@@ -25,8 +38,56 @@ ${jobDescription.jobDescription}
   `.trim();
 
   const formattedUserDetails = `
-  Name: ${userInfo.given_name} ${userInfo.family_name}
-  Email: ${userInfo.email}
+  Name: ${userInfo.givenName} ${userInfo.familyName}
+  ${userInfo.image ? `Profile Picture: ${userInfo.image}` : ""}
+  `.trim();
+
+  const formattedContactDetails = `
+    Contact Details:
+    ${contactDetails.map((contactDetail) => {
+      return `
+      ${contactDetail.type}: ${contactDetail.value}
+      `;
+    })}
+  `.trim();
+
+  const formattedEducations = `
+    Education:
+    ${educations
+      .map((education) => {
+        return `
+      ${education.institute}
+      ${education.title}
+      ${education.timeFrame}
+      `.trim();
+      })
+      .join("\n")}
+  `.trim();
+
+  const formattedLanguages = `
+    Languages:
+    ${languages
+      .map((language) => {
+        return `
+      ${language.name}
+      ${language.proficiency}
+      `.trim();
+      })
+      .join("\n")}
+  `.trim();
+
+  const formattedReferences = `
+    References:
+    ${references
+      .map((reference) => {
+        return `
+      ${reference.name}
+      ${reference.position}
+      ${reference.company}
+      ${reference.contact}
+      `.trim();
+      })
+      .join("\n")}
   `.trim();
 
   const { text } = await generateText({
@@ -40,6 +101,22 @@ ${jobDescription.jobDescription}
       {
         role: "system",
         content: formattedUserDetails,
+      },
+      {
+        role: "system",
+        content: formattedContactDetails,
+      },
+      {
+        role: "system",
+        content: formattedEducations,
+      },
+      {
+        role: "system",
+        content: formattedLanguages,
+      },
+      {
+        role: "system",
+        content: formattedReferences,
       },
       {
         role: "system",

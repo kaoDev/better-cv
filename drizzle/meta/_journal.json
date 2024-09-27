@@ -71,6 +71,20 @@
       "when": 1727374437468,
       "tag": "0009_wooden_leper_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1727419999238,
+      "tag": "0010_swift_revanche",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1727423894557,
+      "tag": "0011_huge_jubilee",
+      "breakpoints": true
     }
   ]
 }

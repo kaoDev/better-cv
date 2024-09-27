@@ -12,6 +12,7 @@ import {
   vector,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
+import { contactDetailEnumValues } from "~/utils/enums";
 import { applicationStatusOptions } from "../job-applications/types";
 
 /**
@@ -28,8 +29,8 @@ export const users = createTable("user", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: varchar("name", { length: 255 }),
-  given_name: varchar("given_name", { length: 255 }),
-  family_name: varchar("family_name", { length: 255 }),
+  givenName: varchar("given_name", { length: 255 }),
+  familyName: varchar("family_name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("email_verified", {
     mode: "date",
@@ -41,6 +42,122 @@ export const users = createTable("user", {
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
 }));
+
+export const contactTypes = pgEnum("contact_type", contactDetailEnumValues);
+
+export const contactDetails = createTable(
+  "contact_detail",
+  {
+    id: varchar("id", { length: 191 })
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+
+    userId: varchar("user_id", { length: 255 })
+      .notNull()
+      .references(() => users.id),
+
+    type: contactTypes("type").notNull(),
+    value: text("value").notNull(),
+
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (table) => ({
+    fk: foreignKey({
+      name: "user_id",
+      columns: [table.userId],
+      foreignColumns: [users.id],
+    })
+      .onDelete("cascade")
+      .onUpdate("cascade"),
+  }),
+);
+
+export const educations = createTable(
+  "education",
+  {
+    id: varchar("id", { length: 191 })
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+
+    userId: varchar("user_id", { length: 255 })
+      .notNull()
+      .references(() => users.id),
+
+    institute: text("institute").notNull(),
+    title: text("title").notNull(),
+    timeFrame: text("time_frame").notNull(),
+
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (table) => ({
+    fk: foreignKey({
+      name: "user_id",
+      columns: [table.userId],
+      foreignColumns: [users.id],
+    })
+      .onDelete("cascade")
+      .onUpdate("cascade"),
+  }),
+);
+
+export const languages = createTable(
+  "language",
+  {
+    id: varchar("id", { length: 191 })
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: varchar("user_id", { length: 255 })
+      .notNull()
+      .references(() => users.id),
+
+    name: text("name").notNull(),
+    proficiency: text("proficiency").notNull(),
+
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (table) => ({
+    fk: foreignKey({
+      name: "user_id",
+      columns: [table.userId],
+      foreignColumns: [users.id],
+    })
+      .onDelete("cascade")
+      .onUpdate("cascade"),
+  }),
+);
+
+export const references = createTable(
+  "reference",
+  {
+    id: varchar("id", { length: 191 })
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+
+    userId: varchar("user_id", { length: 255 })
+      .notNull()
+      .references(() => users.id),
+
+    name: text("name").notNull(),
+    position: text("position").notNull(),
+    company: text("company").notNull(),
+    contact: text("contact").notNull(),
+
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (table) => ({
+    fk: foreignKey({
+      name: "user_id",
+      columns: [table.userId],
+      foreignColumns: [users.id],
+    })
+      .onDelete("cascade")
+      .onUpdate("cascade"),
+  }),
+);
 
 export const accounts = createTable(
   "account",

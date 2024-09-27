@@ -1,6 +1,13 @@
 import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { type Item, PdfReader } from "pdfreader";
+import { z } from "zod";
+import {
+  contactDetailSchema,
+  educationSchema,
+  languageSchema,
+  referenceSchema,
+} from "../personal-details/helpers";
 import { workExperienceClientFormSchema } from "../work-experience/types";
 
 async function parsePdf(pdfFileBuffer: Buffer) {
@@ -47,6 +54,14 @@ async function parsePdf(pdfFileBuffer: Buffer) {
   });
 }
 
+const pdfResultSchema = z.object({
+  workExperiences: z.array(workExperienceClientFormSchema),
+  contactDetails: z.array(contactDetailSchema),
+  educations: z.array(educationSchema),
+  languages: z.array(languageSchema),
+  references: z.array(referenceSchema),
+});
+
 export async function parseWorkExperience(pdfFileBuffer: Buffer) {
   console.log("start parseing pdf");
   const pdfContent = await parsePdf(pdfFileBuffer);
@@ -57,15 +72,15 @@ export async function parseWorkExperience(pdfFileBuffer: Buffer) {
 
   const { object } = await generateObject({
     model: openai("gpt-4o-mini"),
-    output: "array",
-    schema: workExperienceClientFormSchema,
+    output: "object",
+    schema: pdfResultSchema,
     messages: [
       {
         role: "user",
         content: [
           {
             type: "text",
-            text: `extract text chunks that describe work experience`,
+            text: `extract information from the given text to collect useful information about work experiences, contact details, educations, languages, and references`,
           },
           {
             type: "text",
