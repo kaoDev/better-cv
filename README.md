@@ -1,29 +1,42 @@
-# Create T3 App
+# Better CV
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is a project to create and manage CVs for your job applications.
 
-## What's next? How do I make an app with this?
+## Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+### Personal Information
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Add your personal information like name, address, phone number, email, etc.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+### Work Experience
 
-## Learn More
+Add your work experience, including the company name, job title, start
+and end dates, and a description of your responsibilities.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+For each work experience an embedding is generated using the
+`text-embedding-3-small` model. This is used to find relevant work experience
+for a specific job application.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+### Job Applications
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+Add job applications, including the company name, job title, application
+date, and a description of the job.
+Generate a customized CV based on your personal details and work
+experience for the specific job description. This is done by finding the
+most relevant work experience for the job description using the embeddings.
 
-## How do I deploy this?
+### Import Details from PDF
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Import your personal details and work experience from a PDF file.
+This is made possible by passing the PDF text content to the openAI
+`gpt-4o-mini` model to get structured data.
+
+## Technologies
+
+- Next.js
+- Tailwind CSS
+- PostgreSQL (with pgvector extension)
+- Drizzle
+- OpenAI API
+- TypeScript
+- tRPC
